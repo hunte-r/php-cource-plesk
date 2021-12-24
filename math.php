@@ -41,3 +41,21 @@ function isPowerOfThree(int $number): bool
 
     return false;
 }
+
+function fib(int $fibIndex): int
+{
+    if ($fibIndex < 0) {
+        print_r("Error: input argument is a negative number\n");
+        return -1;
+    }
+
+    $fibSeries = [0, 1];
+
+    $i = 2;
+    while ($i <= $fibIndex) {
+        $fibSeries[$i] = $fibSeries[$i - 2] + $fibSeries[$i - 1];
+        ++$i;
+    }
+
+    return $fibSeries[$fibIndex];
+}
