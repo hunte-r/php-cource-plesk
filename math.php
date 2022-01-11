@@ -140,3 +140,28 @@ function isHappy(string $number): bool
     return array_sum(str_split($part1)) === array_sum(str_split($part2));
 }
 
+function fizzBuzz(int $begin, int $end)
+{
+    for ($i = $begin; $i <= $end; $i++) {
+        $isFizz = $i % 3 === 0;
+        $isBuzz = $i % 5 === 0;
+        
+        if ($isFizz && $isBuzz) {
+            print_r('FizzBuzz ');
+            continue;
+        }
+        
+        if ($isFizz) {
+            print_r('Fizz ');
+            continue;
+        }
+
+        if ($isBuzz) {
+            print_r('Buzz ');
+            continue;
+        }
+
+        print_r("$i ");
+    }
+}
+
