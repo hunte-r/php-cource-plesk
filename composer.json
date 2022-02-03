@@ -1,0 +1,20 @@
+{
+  "name": "eruzavin/php-cource-plesk",
+  "authors": [
+    {
+      "name": "Evgeny Ruzavin",
+      "email": "eruzavin@plesk.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Math\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
+}
