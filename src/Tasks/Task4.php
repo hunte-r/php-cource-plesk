@@ -2,12 +2,23 @@
 
 namespace Math\Tasks;
 
-Class Task4
+use Math\Logger\LoggerInterface;
+
+class Task4
 {
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     public function addDigits(int $number): int
     {
         if ($number < 0) {
-            throw new \Exception('Negative numbers are not allowed');
+            $errorMessage = 'Negative numbers are not allowed';
+            $this->logger->err("Exception: $errorMessage");
+            throw new \Exception($errorMessage);
         }
 
         // Split input number to digits and put them to array

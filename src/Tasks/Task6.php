@@ -2,7 +2,7 @@
 
 namespace Math\Tasks;
 
-Class Task6
+class Task6
 {
     public function isPerfect(int $number): bool
     {

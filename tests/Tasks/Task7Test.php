@@ -2,6 +2,7 @@
 
 namespace Math\Tests;
 
+use Math\Logger\UnittestsLogger;
 use PHPUnit\Framework\TestCase;
 
 class Task7Test extends TestCase
@@ -11,7 +12,8 @@ class Task7Test extends TestCase
      */
     public function testIsHappy(bool $expectedResult, string $number): void
     {
-        $task7 = (new \Math\Tasks\Task7());
+        $logger = new UnittestsLogger();
+        $task7 = (new \Math\Tasks\Task7($logger));
         self::assertEquals($expectedResult, $task7->isHappy($number));
     }
 
@@ -26,29 +28,48 @@ class Task7Test extends TestCase
     }
     
     /**
-     * @dataProvider IsHappyWrongSymbolsProvider
+     * @dataProvider isHappyWrongSymbolsProvider
      */
-    public function testIsHappyWrongSymbols(string $number): void
+    public function testIsHappyWrongSymbols(string $number, string $expectedExceptionMessage): void
     {
-        $task7 = (new \Math\Tasks\Task7());
+        $logger = new UnittestsLogger();
+        $task7 = (new \Math\Tasks\Task7($logger));
 
         $this->expectException('Exception');
-        $task7->isHappy($number);
+        try {
+            $task7->isHappy($number);
+        } finally {
+            $errorsLog = $logger->getLog();
+            $actualExceptionMessage = $errorsLog[0];
+            self::assertEquals($expectedExceptionMessage, $actualExceptionMessage);
+        }
     }
 
-    public function IsHappyWrongSymbolsProvider(): array
+    public function isHappyWrongSymbolsProvider(): array
     {
+        $exceptionMessage = '[ERR] Exception: Input value must contain numbers only';
+        
         return [
-            [''],
-            ['abc']
+            ['', $exceptionMessage],
+            ['abc', $exceptionMessage]
         ];
     }
     
     public function testIsHappyOdd(): void
     {
-        $task7 = (new \Math\Tasks\Task7());
+        $logger = new UnittestsLogger();
+        $task7 = (new \Math\Tasks\Task7($logger));
 
         $this->expectException('Exception');
-        $task7->isHappy('12332');
+        try {
+            $task7->isHappy('12332');
+        } finally {
+            $errorsLog = $logger->getLog();
+            $actualExceptionMessage = $errorsLog[0];
+            self::assertEquals(
+                '[ERR] Exception: Input value must contain even number of digits',
+                $actualExceptionMessage
+            );
+        }
     }
 }

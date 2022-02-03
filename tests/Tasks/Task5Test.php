@@ -2,6 +2,7 @@
 
 namespace Math\Tests;
 
+use Math\Logger\UnittestsLogger;
 use PHPUnit\Framework\TestCase;
 
 class Task5Test extends TestCase
@@ -11,7 +12,8 @@ class Task5Test extends TestCase
      */
     public function testIsBalanced(bool $expectedResult, string $string): void
     {
-        $task5 = (new \Math\Tasks\Task5());
+        $logger = new UnittestsLogger();
+        $task5 = (new \Math\Tasks\Task5($logger));
         self::assertEquals($expectedResult, $task5->isBalanced($string));
     }
 
@@ -29,9 +31,16 @@ class Task5Test extends TestCase
 
     public function testIsBalancedWrongInput(): void
     {
-        $task5 = (new \Math\Tasks\Task5());
+        $logger = new UnittestsLogger();
+        $task5 = (new \Math\Tasks\Task5($logger));
 
         $this->expectException('Exception');
-        $task5->isBalanced('(nok)');
+        try {
+            $task5->isBalanced('(nok)');
+        } finally {
+            $errorsLog = $logger->getLog();
+            $actualExceptionMessage = $errorsLog[0];
+            self::assertEquals('[ERR] Exception: Incorrect format of the input string', $actualExceptionMessage);
+        }
     }
 }

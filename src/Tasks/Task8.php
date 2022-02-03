@@ -2,7 +2,7 @@
 
 namespace Math\Tasks;
 
-Class Task8
+class Task8
 {
     public function generateFizzBuzz(int $begin, int $end): string
     {
@@ -34,6 +34,6 @@ Class Task8
 
     public function fizzBuzz(int $begin, int $end): void
     {
-        echo $this->generateFizzBuzz($begin,$end);
+        echo $this->generateFizzBuzz($begin, $end);
     }
 }
