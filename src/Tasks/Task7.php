@@ -2,18 +2,31 @@
 
 namespace Math\Tasks;
 
+use Math\Logger\LoggerInterface;
+
 class Task7
 {
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     public function isHappy(string $number): bool
     {
         $regex = '/^[0-9]+$/';
         if (!preg_match($regex, $number)) {
-            throw new \Exception('Input value must contain numbers only');
+            $errorMessage = 'Input value must contain numbers only';
+            $this->logger->err("Exception: $errorMessage");
+            throw new \Exception($errorMessage);
         }
 
         $partsSize = strlen($number) / 2;
         if (!is_int($partsSize)) {
-            throw new \Exception('Input value must contain even number of digits');
+            $errorMessage = 'Input value must contain even number of digits';
+            $this->logger->err("Exception: $errorMessage");
+            throw new \Exception($errorMessage);
         }
 
         $part1 = substr($number, 0, $partsSize);

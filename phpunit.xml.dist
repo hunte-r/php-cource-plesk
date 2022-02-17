@@ -9,7 +9,7 @@
   </php>
   <testsuites>
     <testsuite name="Math">
-      <directory>tests</directory>
+      <directory>tests\Tasks\</directory>
     </testsuite>
   </testsuites>
 </phpunit>

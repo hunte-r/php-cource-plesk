@@ -2,6 +2,7 @@
 
 namespace Math\Tests;
 
+use Math\Logger\UnittestsLogger;
 use PHPUnit\Framework\TestCase;
 
 class Task1Test extends TestCase
@@ -11,7 +12,8 @@ class Task1Test extends TestCase
      */
     public function testBinarySum(string $expectedResult, string $binA, string $binB): void
     {
-        $task1 = (new \Math\Tasks\Task1());
+        $logger = new UnittestsLogger();
+        $task1 = (new \Math\Tasks\Task1($logger));
         
         $actual = $task1->binarySum($binA, $binB);
         
@@ -30,21 +32,29 @@ class Task1Test extends TestCase
     /**
      * @dataProvider binarySumWrongInputProvider
      */
-    public function testBinarySumWrongInput(string $binA, string $binB): void
+    public function testBinarySumWrongInput(string $binA, string $binB, string $expectedExceptionMessage): void
     {
-        $task1 = (new \Math\Tasks\Task1());
+        $logger = new UnittestsLogger();
+        $task1 = (new \Math\Tasks\Task1($logger));
         
         $this->expectException('Exception');
-        $task1->binarySum($binA, $binB);
+        try {
+            $task1->binarySum($binA, $binB);
+        } finally {
+            $errorsLog = $logger->getLog();
+            $actualExceptionMessage = $errorsLog[0];
+            self::assertEquals($expectedExceptionMessage, $actualExceptionMessage);
+        }
     }
 
     public function binarySumWrongInputProvider(): array
     {
+        $exceptionMessage = '[ERR] Exception: At least one input argument is not binary';
         return [
-            ['abc', '100'],
-            ['100', 'bca'],
-            ['', 'bca'],
-            ['100', ''],
+            ['abc', '100', $exceptionMessage],
+            ['100', 'bca', $exceptionMessage],
+            ['', 'bca', $exceptionMessage],
+            ['100', '', $exceptionMessage],
         ];
     }
 }

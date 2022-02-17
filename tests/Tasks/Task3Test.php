@@ -2,6 +2,7 @@
 
 namespace Math\Tests;
 
+use Math\Logger\UnittestsLogger;
 use PHPUnit\Framework\TestCase;
 
 class Task3Test extends TestCase
@@ -11,7 +12,8 @@ class Task3Test extends TestCase
      */
     public function testFib(int $expectedResult, int $fibIndex): void
     {
-        $task3 = (new \Math\Tasks\Task3());
+        $logger = new UnittestsLogger();
+        $task3 = (new \Math\Tasks\Task3($logger));
         self::assertEquals($expectedResult, $task3->fib($fibIndex));
     }
 
@@ -28,9 +30,16 @@ class Task3Test extends TestCase
 
     public function testFibNegativeNumber(): void
     {
-        $task3 = (new \Math\Tasks\Task3());
+        $logger = new UnittestsLogger();
+        $task3 = (new \Math\Tasks\Task3($logger));
 
         $this->expectException('Exception');
-        $task3->fib(-5);
+        try {
+            $task3->fib(-5);
+        } finally {
+            $errorsLog = $logger->getLog();
+            $actualExceptionMessage = $errorsLog[0];
+            self::assertEquals('[ERR] Exception: Input value cannot be a negative number', $actualExceptionMessage);
+        }
     }
 }

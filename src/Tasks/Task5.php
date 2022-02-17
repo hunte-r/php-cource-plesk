@@ -2,8 +2,17 @@
 
 namespace Math\Tasks;
 
-Class Task5
+use Math\Logger\LoggerInterface;
+
+class Task5
 {
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     public function isBalanced(string $string): bool
     {
         if ($string === '') {
@@ -13,7 +22,9 @@ Class Task5
         // Check if input string contains only round brackets
         $regex = '/^[()]+$/';
         if (!preg_match($regex, $string)) {
-            throw new \Exception('Incorrect format of the input string');
+            $errorMessage = 'Incorrect format of the input string';
+            $this->logger->err("Exception: $errorMessage");
+            throw new \Exception($errorMessage);
         }
 
         $position = strpos($string, '()');

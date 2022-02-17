@@ -2,7 +2,7 @@
 
 namespace Math\Tasks;
 
-Class Task2
+class Task2
 {
     public function isPowerOfThree(int $number): bool
     {
